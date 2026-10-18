@@ -8,7 +8,10 @@ export class IdentifierToken extends AbstractToken {
     return /^[$A-Z_a-z][$\w]*$/.test(source);
   }
 
-  constructor(readonly source: string, start = 0) {
+  constructor(
+    readonly source: string,
+    start = 0
+  ) {
     super(start);
     Object.freeze(this);
   }

@@ -1,5 +1,8 @@
 {
   "name": "@ja-platform/db",
+  "engines": {
+    "node": "^22.18.0 || >=24.11.0"
+  },
   "version": "8.1.1",
   "description": "Journey DB library",
   "main": "./dist/index.js",
@@ -7,15 +10,13 @@
   "typings": "./dist/@types/index.d.ts",
   "appTypings": "./dist/@types/app.d.ts",
   "scripts": {
-    "build": "tsc --build",
-    "clean": "tsc -b --clean && rm -rf dist",
     "test": "pnpm test:node",
-    "test:node": "vitest --run --config vitest.config.unit.ts"
+    "test:node": "vitest --run --configLoader runner --config vitest.config.unit.ts"
   },
   "devDependencies": {
-    "@types/node-fetch": "^2.6.4",
-    "fetch-mock": "^9.11.0",
-    "sqlite3": "^5.1.6",
+    "@types/node-fetch": "^2.6.13",
+    "fetch-mock": "^12.6.0",
+    "sqlite3": "^6.0.1",
     "websql": "^2.0.3"
   },
   "dependencies": {
@@ -25,8 +26,8 @@
     "@ja-platform/parser-common": "workspace:*",
     "@ja-platform/parser-schema": "workspace:*",
     "isomorphic-fetch": "^3.0.0",
-    "lodash": "^4.17.21",
-    "uuid": "^9.0.0",
+    "lodash": "^4.18.1",
+    "uuid": "^14.0.3",
     "xmldom": "^0.6.0",
     "@ja-platform/types": "workspace:*"
   },

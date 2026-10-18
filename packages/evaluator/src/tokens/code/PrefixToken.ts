@@ -4,7 +4,10 @@ import { IdentifierToken } from './IdentifierToken';
 export const FUNCTION_PREFIX = '$:';
 
 export class PrefixToken extends AbstractToken {
-  constructor(start = 0, readonly source = FUNCTION_PREFIX) {
+  constructor(
+    start = 0,
+    readonly source = FUNCTION_PREFIX
+  ) {
     super(start);
     Object.freeze(this);
   }

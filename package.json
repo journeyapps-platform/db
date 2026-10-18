@@ -2,29 +2,34 @@
   "version": "2.29.1",
   "description": "Journey database SDK and supporting packages",
   "private": true,
+  "engines": {
+    "node": "^22.19.0 || ^24.11.0 || >=26.0.0"
+  },
   "workspaces": [
     "packages/*"
   ],
   "scripts": {
-    "build": "pnpm -r build",
-    "clean": "pnpm -r clean",
+    "build": "tsc --build",
+    "clean": "tsc --build --clean",
     "ncu": "ncu -u && pnpm recursive exec -- ncu -u",
-    "test": "pnpm -r --workspace-concurrency=1 test",
+    "test": "pnpm build && pnpm -r --workspace-concurrency=1 test",
     "watch": "tsc -b -w",
-    "format": "prettier --write \"**/*.{ts,tsx,js,jsx}\"",
+    "format": "prettier --write \"**/*.{ts,tsx,mts,cts,js,jsx,mjs,cjs}\"",
     "ci:publish": "changeset publish && git push --follow-tags",
     "ci:version": "changeset version && pnpm install --no-frozen-lockfile"
   },
   "devDependencies": {
-    "@changesets/read": "^0.6.0",
-    "@changesets/cli": "^2.26.2",
-    "@journeyapps-platform/lerno": "2.0.7",
+    "@changesets/read": "^1.0.1",
+    "@changesets/cli": "^3.0.3",
+    "@journeyapps-platform/lerno": "2.1.4",
     "@journeyapps/domparser": "^0.4.1",
-    "@types/node": "^20.5.7",
-    "@vitest/browser": "^1.6.0",
-    "typescript": "^5.2.2",
-    "vitest": "^1.6.0",
-    "webdriverio": "^8.36.1"
+    "@types/node": "^26.6.5",
+    "@vitest/browser": "^5.0.5",
+    "@vitest/browser-webdriverio": "^5.0.0",
+    "prettier": "3.9.6",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.5",
+    "webdriverio": "^10.1.0"
   },
-  "packageManager": "pnpm@9.12.3"
+  "packageManager": "pnpm@12.14.0"
 }

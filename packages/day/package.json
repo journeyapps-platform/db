@@ -5,17 +5,15 @@
   "main": "./dist/index.js",
   "typings": "./dist/@types/index.d.ts",
   "scripts": {
-    "build": "tsc --build",
-    "clean": "tsc -b --clean && rm -rf ./dist",
-    "test": "pnpm build && pnpm test:node && pnpm test:browser",
-    "test:browser": "vitest --run --config vitest.config.browser.ts ",
-    "test:node": "vitest --run --config vitest.config.unit.ts"
+    "test": "pnpm test:node && pnpm test:browser",
+    "test:browser": "vitest --run --configLoader runner --config vitest.config.browser.ts",
+    "test:node": "vitest --run --configLoader runner --config vitest.config.unit.ts"
   },
   "files": [
     "dist"
   ],
   "devDependencies": {
-    "moment": "^2.29.4"
+    "moment": "^2.31.0"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",

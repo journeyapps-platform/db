@@ -1,6 +1,6 @@
 import { Collection, Database } from '../src';
-import * as fetchMock from 'fetch-mock';
-import { describe, it, expect, beforeEach } from 'vitest';
+import fetchMock from 'fetch-mock';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { DBTestContext, setupContext } from './setup/databaseSetup';
 
 // @ts-ignore
@@ -11,7 +11,10 @@ declare module 'vitest' {
 }
 
 describe('batching', () => {
+  afterEach(() => fetchMock.hardReset());
+
   beforeEach(async (context) => {
+    fetchMock.mockGlobal();
     const ctx = await setupContext(schema3Xml);
     context.adapter = ctx.adapter;
     context.schema = ctx.schema;

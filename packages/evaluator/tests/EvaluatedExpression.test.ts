@@ -51,7 +51,11 @@ class QueryToken extends CodeToken<string> {
  */
 class CommandToken extends QueryToken {
   readonly arguments: readonly string[];
-  constructor(private readonly name: string, args: readonly string[] = [], start = 0) {
+  constructor(
+    private readonly name: string,
+    args: readonly string[] = [],
+    start = 0
+  ) {
     super(`${name} ${args.join(' ')}`.trim(), start);
     this.arguments = args;
   }

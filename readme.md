@@ -39,6 +39,10 @@ The legacy `journeyapps` wrapper has been removed. Import SDK exports such as `D
 
 ## Code Installation
 
+Use Node 24 for development (`nvm install && nvm use`). The DB, evaluator, and parser packages require Node `^22.18.0 || >=24.11.0` because they depend on Babel 8.
+
+CI runs the same `pnpm test` suite, including browser tests, on Node 22, 24, and 26 using a GitHub Actions matrix.
+
 1. clone and run `pnpm install` in the repository root
 2. run `pnpm build` to build.
 3. run `pnpm test` to run all the unit tests.

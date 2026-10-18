@@ -1,13 +1,9 @@
 import { defineConfig } from 'vitest/config';
+import { webdriverio } from '@vitest/browser-webdriverio';
 
 export default defineConfig({
   optimizeDeps: {
-    include: ['@journeyapps/common-xml']
-  },
-  build: {
-    commonjsOptions: {
-      include: [/@journeyapps\/common-xml/]
-    }
+    include: ['@ja-platform/evaluator', '@ja-platform/types', '@journeyapps/common-xml']
   },
   test: {
     alias: {
@@ -15,9 +11,10 @@ export default defineConfig({
     },
     globals: true,
     include: ['./tests/**/*.test.ts'],
-    reporters: 'verbose',
+    reporters: 'default',
     browser: {
-      name: 'chrome',
+      provider: webdriverio(),
+      instances: [{ browser: 'chrome' }],
       enabled: true,
       headless: true
     }

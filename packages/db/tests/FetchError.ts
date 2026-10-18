@@ -2,7 +2,10 @@
 export class FetchError extends Error {
   type = 'system';
 
-  constructor(public code: string, message: string) {
+  constructor(
+    public code: string,
+    message: string
+  ) {
     super(message);
   }
 }

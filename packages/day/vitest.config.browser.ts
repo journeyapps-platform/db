@@ -1,12 +1,14 @@
 import { defineConfig } from 'vitest/config';
+import { webdriverio } from '@vitest/browser-webdriverio';
 
 export default defineConfig({
   test: {
     globals: true,
     include: ['./tests/**/*.test.ts'],
-    reporters: 'verbose',
+    reporters: 'default',
     browser: {
-      name: 'chrome',
+      provider: webdriverio(),
+      instances: [{ browser: 'chrome' }],
       enabled: true,
       headless: true
     }

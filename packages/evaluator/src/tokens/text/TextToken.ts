@@ -8,7 +8,10 @@ export class TextToken extends AbstractToken {
     return new TextToken(value.replace(/{/g, '{{').replace(/}/g, '}}'), start);
   }
 
-  constructor(readonly source: string, start = 0) {
+  constructor(
+    readonly source: string,
+    start = 0
+  ) {
     super(start);
     Object.freeze(this);
   }

@@ -27,8 +27,7 @@ export type ObjectTypeName =
 export abstract class AbstractObjectTypeFactory<
   R extends ObjectTypeInstance = ObjectTypeInstance,
   E extends GenerateTypeEvent = GenerateTypeEvent
-> implements TypeFactory<ObjectTypeName>
-{
+> implements TypeFactory<ObjectTypeName> {
   name: ObjectTypeName;
 
   constructor(name: ObjectTypeName) {
@@ -38,9 +37,10 @@ export abstract class AbstractObjectTypeFactory<
   abstract generate<T>(event: E): R;
 }
 
-export class PrimitiveTypeFactory<T extends PrimitiveTypeInstance, E extends GenerateTypeEvent = GenerateTypeEvent>
-  implements TypeFactory<PrimitiveTypeName>
-{
+export class PrimitiveTypeFactory<
+  T extends PrimitiveTypeInstance,
+  E extends GenerateTypeEvent = GenerateTypeEvent
+> implements TypeFactory<PrimitiveTypeName> {
   name: PrimitiveTypeName;
   constructor(name: PrimitiveTypeName) {
     this.name = name;

@@ -87,7 +87,10 @@ export class ObjectDisplayScope {
     }
   }
 
-  constructor(readonly object: unknown, private readonly formatterFor?: (type: Type) => Formatter) {}
+  constructor(
+    readonly object: unknown,
+    private readonly formatterFor?: (type: Type) => Formatter
+  ) {}
 
   /**
    * Render available fields, returning null while a referenced value is loading.
@@ -104,7 +107,7 @@ export class ObjectDisplayScope {
 
   getExpressionFormatter(path: ReferencePath): Formatter | null {
     const type = this.getExpressionType(path);
-    return type == null ? null : this.formatterFor?.(type) ?? type;
+    return type == null ? null : (this.formatterFor?.(type) ?? type);
   }
 
   getExpressionType(path: ReferencePath): Type | null {

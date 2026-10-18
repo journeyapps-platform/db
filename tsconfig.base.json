@@ -3,8 +3,9 @@
       "target": "es2017",
       "lib": ["dom", "esnext"],
       "composite": true,
-      "moduleResolution": "node",
-      "module": "commonjs",
+      "strict": false,
+      "moduleResolution": "nodenext",
+      "module": "nodenext",
       "sourceMap": true,
       "skipLibCheck": true,
       "stripInternal": true,
@@ -13,4 +14,3 @@
       "esModuleInterop": true
     }
 }
-  

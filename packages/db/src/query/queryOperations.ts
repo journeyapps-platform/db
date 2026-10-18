@@ -612,7 +612,11 @@ export class Tokenizer {
 // ## Parser
 // The parser uses the tokenizer to build an Expression object.
 export class Parser {
-  constructor(private scopeType: SchemaModelType, private tokenizer: Tokenizer, private args: any[]) {
+  constructor(
+    private scopeType: SchemaModelType,
+    private tokenizer: Tokenizer,
+    private args: any[]
+  ) {
     if (args == null) {
       this.args = [];
     }

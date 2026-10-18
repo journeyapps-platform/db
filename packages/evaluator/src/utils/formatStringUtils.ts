@@ -42,7 +42,7 @@ export function placeholderEnd(source: string, start: number): number {
   let previous = '';
   const groups: string[] = [];
   let end = -1;
-  for (let i = start + 1; i < source.length; ) {
+  for (let i = start + 1; i < source.length;) {
     const char = source[i];
     if (/\s/.test(char)) {
       i++;

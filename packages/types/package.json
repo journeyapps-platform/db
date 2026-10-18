@@ -5,9 +5,7 @@
   "main": "./dist/index.js",
   "typings": "./dist/@types/index.d.ts",
   "scripts": {
-    "build": "tsc --build",
-    "watch": "tsc -b --watch",
-    "clean": "tsc -b --clean && rm -rf dist"
+    "watch": "tsc -b --watch"
   },
   "files": [
     "dist"

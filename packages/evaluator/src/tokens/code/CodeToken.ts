@@ -34,7 +34,10 @@ export abstract class CodeToken<Argument = unknown> extends AbstractToken {
   /**
    * Preserve the original source and its position in the surrounding expression.
    */
-  protected constructor(readonly source: string, start = 0) {
+  protected constructor(
+    readonly source: string,
+    start = 0
+  ) {
     super(start);
   }
 

@@ -1,5 +1,5 @@
 import { Day, pureDate } from '@ja-platform/day';
-import moment = require('moment');
+import moment from 'moment';
 import { Type } from '@ja-platform/types';
 
 export class DateType extends Type {

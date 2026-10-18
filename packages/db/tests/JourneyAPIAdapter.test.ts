@@ -1,4 +1,4 @@
-import * as fetchMock from 'fetch-mock';
+import fetchMock from 'fetch-mock';
 import {
   ApiCredentials,
   Attachment,
@@ -29,14 +29,18 @@ const credentials = new ApiCredentials({
 
 describe('JourneyAPIAdapter', function () {
   beforeEach(async (context) => {
+    fetchMock.mockGlobal();
     const ctx = await setupContext(schema3Xml);
     context.schema = ctx.schema;
     context.adapter = new JourneyAPIAdapter(credentials, ctx.schema);
   });
 
   afterEach(function () {
-    expect(fetchMock.calls('unmatched')).toEqual([]);
-    fetchMock.restore();
+    try {
+      expect(fetchMock.callHistory.calls('unmatched')).toEqual([]);
+    } finally {
+      fetchMock.hardReset();
+    }
   });
 
   it('should get an object', async ({ adapter, schema }) => {
@@ -57,7 +61,7 @@ describe('JourneyAPIAdapter', function () {
     };
     fetchMock.once(url, { body: mockData });
     const data = await adapter.get('asset', '123');
-    expect(fetchMock.called(url)).toBe(true);
+    expect(fetchMock.callHistory.called(url)).toBe(true);
     expect(data).toEqual(
       expect.objectContaining({
         id: '123',
@@ -104,7 +108,7 @@ describe('JourneyAPIAdapter', function () {
     };
     fetchMock.once(url, { body: mockData });
     const data = await adapter.getAll('asset', ['123', '246']);
-    expect(fetchMock.called(url)).toBe(true);
+    expect(fetchMock.callHistory.called(url)).toBe(true);
     expect(data).toEqual([
       expect.objectContaining({
         id: '123',
@@ -120,7 +124,7 @@ describe('JourneyAPIAdapter', function () {
       }),
       null
     ]);
-    const lastBody = JSON.parse(fetchMock.lastOptions(url).body.toString());
+    const lastBody = JSON.parse(fetchMock.callHistory.lastCall(url).options.body.toString());
     expect(lastBody).toEqual({
       expression: 'id in ?',
       arguments: [['123', '246']],
@@ -140,7 +144,7 @@ describe('JourneyAPIAdapter', function () {
     };
     fetchMock.once(url, { body: mockData, status: 404 });
     const data = await adapter.get('asset', '123');
-    expect(fetchMock.called(url)).toEqual(true);
+    expect(fetchMock.callHistory.called(url)).toEqual(true);
     expect(data).toEqual(null);
   });
 
@@ -152,7 +156,6 @@ describe('JourneyAPIAdapter', function () {
 
     fetchMock.once(
       {
-        overwriteRoutes: false,
         url: url
       },
       { throws: hangUp }
@@ -163,14 +166,13 @@ describe('JourneyAPIAdapter', function () {
     };
     fetchMock.once(
       {
-        overwriteRoutes: false,
         url: url
       },
       { body: mockData }
     );
 
     const data = await adapter.get('asset', '123');
-    expect(fetchMock.called(url)).toBe(true);
+    expect(fetchMock.callHistory.called(url)).toBe(true);
     expect(data).toEqual(
       expect.objectContaining({
         id: '123',
@@ -189,14 +191,13 @@ describe('JourneyAPIAdapter', function () {
     };
     fetchMock.once(
       {
-        url,
-        overwriteRoutes: false
+        url
       },
       { body: mockData }
     );
 
     const data = await adapter.get('asset', '123');
-    expect(fetchMock.called(url)).toBe(true);
+    expect(fetchMock.callHistory.called(url)).toBe(true);
     expect(data).toEqual(
       expect.objectContaining({
         id: '123',
@@ -209,15 +210,13 @@ describe('JourneyAPIAdapter', function () {
     const url = 'http://test.test/api/v4/testaccount/objects/asset/123.json';
     fetchMock.once(
       {
-        url,
-        overwriteRoutes: false
+        url
       },
       504
     );
     fetchMock.once(
       {
-        url,
-        overwriteRoutes: false
+        url
       },
       504
     );
@@ -247,7 +246,7 @@ describe('JourneyAPIAdapter', function () {
 
     const db = Database.getTypedDatabase<{ asset: { serial_number: string } }>(schema, adapter);
     let asset = await db.asset.first();
-    expect(fetchMock.called(url)).toBe(true);
+    expect(fetchMock.callHistory.called(url)).toBe(true);
     expect(asset.serial_number).toBe('12345');
   });
 
@@ -286,8 +285,8 @@ describe('JourneyAPIAdapter', function () {
 
     const db = Database.getTypedDatabase<{ asset: {} }>(schema, adapter);
     let results = await db.asset.all().toArray();
-    expect(fetchMock.called(urlFirstPage)).toBe(true);
-    expect(fetchMock.called(urlSecondPage)).toBe(true);
+    expect(fetchMock.callHistory.called(urlFirstPage)).toBe(true);
+    expect(fetchMock.callHistory.called(urlSecondPage)).toBe(true);
     expect(results.length).toBe(MOCK_TOTAL);
   });
 
@@ -324,8 +323,7 @@ describe('JourneyAPIAdapter', function () {
     };
     fetchMock.once(
       {
-        url: url,
-        overwriteRoutes: false
+        url: url
       },
       { body: mockResponse2 }
     );
@@ -348,13 +346,13 @@ describe('JourneyAPIAdapter', function () {
     expect(object2.persisted).toBe(true);
     expect(object3.persisted).toBe(true);
 
-    expect(fetchMock.called(url)).toBe(true);
+    expect(fetchMock.callHistory.called(url)).toBe(true);
 
-    const calls = fetchMock.calls(url);
+    const calls = fetchMock.callHistory.calls(url);
     expect(calls.length).toBe(2);
 
-    const body1 = JSON.parse(calls[0]['1'].body.toString());
-    const body2 = JSON.parse(calls[1]['1'].body.toString());
+    const body1 = JSON.parse(calls[0].options.body.toString());
+    const body2 = JSON.parse(calls[1].options.body.toString());
     expect(body1).toEqual({
       operations: [
         {
@@ -420,9 +418,9 @@ describe('JourneyAPIAdapter', function () {
     expect(object1.persisted).toBe(true);
     expect(object2.persisted).toBe(true);
 
-    expect(fetchMock.called(url)).toBe(true);
-    const lastCall = fetchMock.lastCall(url);
-    const bodyText = lastCall[1].body;
+    expect(fetchMock.callHistory.called(url)).toBe(true);
+    const lastCall = fetchMock.callHistory.lastCall(url);
+    const bodyText = lastCall.options.body;
     const body = JSON.parse(bodyText.toString());
     expect(body).toEqual({
       operations: [
@@ -529,7 +527,7 @@ describe('JourneyAPIAdapter', function () {
 
     expect(object1.persisted).toBe(true);
     expect(object2.persisted).toBe(false);
-    expect(fetchMock.called(url)).toBe(true);
+    expect(fetchMock.callHistory.called(url)).toBe(true);
   });
 
   it('should save an attachment', async ({ adapter, schema }) => {
@@ -547,8 +545,7 @@ describe('JourneyAPIAdapter', function () {
     };
     fetchMock.once(
       {
-        url,
-        overwriteRoutes: false
+        url
       },
       { body: mockPutResponse }
     );
@@ -562,7 +559,7 @@ describe('JourneyAPIAdapter', function () {
     asset.photo = await Attachment.create({ text: 'test file', filename: 'myfile.txt' });
     await asset.save();
 
-    const putOptions = fetchMock.lastOptions(url);
+    const putOptions = fetchMock.callHistory.lastCall(url).options;
     const putBody = JSON.parse(putOptions.body.toString());
 
     expect(putBody).toEqual({
@@ -594,15 +591,14 @@ describe('JourneyAPIAdapter', function () {
     };
     fetchMock.once(
       {
-        url,
-        overwriteRoutes: false
+        url
       },
       { body: mockPatchResponse }
     );
     asset.serial_number = '123456';
     await asset.save();
 
-    const patchOptions = fetchMock.lastOptions(url);
+    const patchOptions = fetchMock.callHistory.lastCall(url).options;
     const patchBody = JSON.parse(patchOptions.body.toString());
 
     expect(patchBody).toEqual({
@@ -621,8 +617,7 @@ describe('JourneyAPIAdapter', function () {
     // Save again, with existing attachment (id)
     fetchMock.once(
       {
-        url,
-        overwriteRoutes: false
+        url
       },
       { body: mockPatchResponse }
     );
@@ -631,7 +626,7 @@ describe('JourneyAPIAdapter', function () {
     asset.photo = new Attachment(PHOTO_ID);
     await asset.save();
 
-    const patch2Options = fetchMock.lastOptions(url);
+    const patch2Options = fetchMock.callHistory.lastCall(url).options;
     const patch2Body = JSON.parse(patch2Options.body.toString());
 
     expect(patch2Body).toEqual({
