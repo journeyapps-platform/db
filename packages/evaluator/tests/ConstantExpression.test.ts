@@ -1,5 +1,5 @@
-import { describe, expect, expectTypeOf, it } from 'vitest';
-import { ConstantExpression, ConstantExpressionParser, TextToken, FormatStringExpression } from '../src';
+import { parseExpression, ConstantExpression, ConstantExpressionParser, TextToken } from '../src';
+import { describe, expect, expectTypeOf, it, vi } from 'vitest';
 import { ScalarType, textType, numberType } from '@ja-platform/types';
 
 describe('ConstantExpression', () => {
@@ -47,8 +47,6 @@ describe('ConstantExpression', () => {
     expect(clone.valueType).toBe(numberType);
     expect(clone.value()).toBe(45);
     expect(new ConstantExpressionParser(numberType).tryParse(expression.tokens).value()).toBe(45);
-    // @ts-expect-error Exercise runtime rejection of a constant placeholder.
-    expect(() => FormatStringExpression.parse('{value}').withParameters([expression])).toThrow(SyntaxError);
   });
 
   it('supports consumer types without another expression subclass', () => {
@@ -76,5 +74,21 @@ describe('ConstantExpression', () => {
     expect(expression.tokens[0]).toBe(tokens[0]);
     expect(expression.tokens[1]).toBe(tokens[1]);
     expect(ConstantExpression.parse([], textType, 7).start).toBe(7);
+  });
+
+  it.each(['false', '1e3', "'it\\'s fine'", '"Hello"', 'null'])(
+    'preserves constant %s without decoding it',
+    (source) => {
+      const expression = parseExpression(source) as ConstantExpression;
+      expect(expression).toBeInstanceOf(ConstantExpression);
+      expect(expression.value()).toBe(source);
+      expect(expression.raw()).toBe(source);
+    }
+  );
+
+  it('does not resolve references or execute code during validation', () => {
+    const scope = { getReference: vi.fn() };
+    expect(ConstantExpression.parse('42').validate(scope)).toEqual([]);
+    expect(scope.getReference).not.toHaveBeenCalled();
   });
 });

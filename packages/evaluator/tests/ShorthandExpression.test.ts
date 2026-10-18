@@ -1,5 +1,5 @@
+import { parseExpression, TextToken, JSToken, ShorthandExpression } from '../src';
 import { UnknownType } from '@ja-platform/types';
-import { ConstantExpression, FunctionExpression, JSToken, ShorthandExpression } from '../src';
 import type { ValidationContext } from '../src';
 import { describe, expect, it, vi } from 'vitest';
 
@@ -29,14 +29,6 @@ describe('ShorthandExpression', () => {
     expect(diagnostics).toHaveLength(1);
   });
 
-  it('does not resolve or execute constants and code during validation', () => {
-    const scope: ValidationContext = { getReference: vi.fn() };
-
-    expect(ConstantExpression.parse('42').validate(scope)).toEqual([]);
-    expect(FunctionExpression.parse('$:save()').validate(scope)).toEqual([]);
-    expect(scope.getReference).not.toHaveBeenCalled();
-  });
-
   it('retains reference syntax and its Babel tree', () => {
     const expression = ShorthandExpression.parse(' /* reference */ worker.name ');
     expect(expression.path).toEqual(['worker', 'name']);
@@ -52,5 +44,27 @@ describe('ShorthandExpression', () => {
     expect(node.type).toBe('MemberExpression');
     if (node.type === 'MemberExpression') expect(node.computed).toBe(true);
     expect(clone.raw()).toBe(expression.raw());
+  });
+
+  it.each(['user.name', 'user[0]', "user['name'].length"])('keeps reference structure in Babel: %s', (source) => {
+    const expression = parseExpression(source) as ShorthandExpression;
+    expect(expression).toBeInstanceOf(ShorthandExpression);
+    expect(expression.tokens).toHaveLength(1);
+    expect((expression.codeToken as JSToken).ast.type).toMatch(/MemberExpression/);
+    expect(expression.raw()).toBe(source);
+  });
+
+  it('rejects calls, incomplete references and plain text tokens', () => {
+    for (const source of ['save()', 'save(', 'user.']) {
+      expect(() => ShorthandExpression.parse(source)).toThrow(SyntaxError);
+    }
+    expect(new ShorthandExpression({ tokens: [new TextToken('user.name')] }).isValid()).toBe(false);
+  });
+
+  it('retains supplied reference tokens', () => {
+    const tokens = ShorthandExpression.parse("user['name'].length").tokens;
+    const expression = ShorthandExpression.parse(tokens);
+    expect(expression.codeToken).toBe(tokens[0]);
+    expect(expression.path).toEqual(['user', 'name', 'length']);
   });
 });

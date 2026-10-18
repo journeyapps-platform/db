@@ -1,18 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import {
-  EvaluatedExpression,
-  CodeToken,
-  JSToken,
-  parseExpression,
-  FunctionExpression,
-  FunctionExpressionParser,
-  PrefixToken
-} from '../src';
+import { EvaluatedExpression, CodeToken, JSToken, parseExpression, PrefixToken } from '../src';
 
 /**
  * A test language token with no JavaScript parser or AST.
  */
 class QueryToken extends CodeToken<string> {
+  readonly freeIdentifiers: readonly string[] = [];
   readonly arguments: readonly string[] = [];
   readonly code: string;
   constructor(source: string, start = 0) {
@@ -42,36 +35,6 @@ class QueryToken extends CodeToken<string> {
   }
   clone(): QueryToken {
     return new QueryToken(this.source, this.start);
-  }
-}
-
-/**
- * A command in the test language whose arguments are plain source strings.
- */
-class CommandToken extends QueryToken {
-  readonly arguments: readonly string[];
-  constructor(
-    private readonly name: string,
-    args: readonly string[] = [],
-    start = 0
-  ) {
-    super(`${name} ${args.join(' ')}`.trim(), start);
-    this.arguments = args;
-  }
-  isCallExpression(): boolean {
-    return true;
-  }
-  functionName(): string {
-    return this.name;
-  }
-  withName(name: string): CommandToken {
-    return new CommandToken(name, this.arguments, this.start);
-  }
-  withArguments(args: readonly string[]): CommandToken {
-    return new CommandToken(this.name, args, this.start);
-  }
-  clone(): CommandToken {
-    return new CommandToken(this.name, [...this.arguments], this.start);
   }
 }
 
@@ -116,31 +79,38 @@ describe('EvaluatedExpression', () => {
     expect(expression.raw()).toBe(`$:${token.source}`);
   });
 
-  it('uses the language token for function classification and call edits', () => {
-    const token = new CommandToken('select', ['name', 'users'], 2);
-    const expression = FunctionExpression.parse([new PrefixToken(), token]);
-    expect(parseExpression(expression.tokens)).toBeInstanceOf(FunctionExpression);
-    expect(expression.isValid()).toBe(true);
-    expect(expression.functionName()).toBe('select');
-    expect(expression.arguments.map((argument) => expression.codeToken.sourceOf(argument))).toEqual(['name', 'users']);
-    const edited = expression.withName('fetch').withArgumentSources(['id', 'accounts']);
-    expect(edited.raw()).toBe('$:fetch id accounts');
-    expect(edited.codeToken).toBeInstanceOf(CommandToken);
-    expect(edited.clone().code).not.toBe(edited.codeToken);
-    expect(expression.raw()).toBe('$:select name users');
+  it.each(['$:myVar', '$:journey.version', "$:user['name'].length"])(
+    'recognizes prefixed expressions without changing source: %s',
+    (source) => {
+      const expression = parseExpression(source);
+      expect(expression).toBeInstanceOf(EvaluatedExpression);
+      expect(expression.constructor).toBe(EvaluatedExpression);
+      expect(expression.raw()).toBe(source);
+    }
+  );
+
+  it('preserves operators, parentheses and conditional branch types', () => {
+    const source = '$: (ready || enabled) ? "Yes" : null';
+    const expression = parseExpression(source) as EvaluatedExpression;
+    expect(expression.constructor).toBe(EvaluatedExpression);
+    const node = (expression.codeToken as JSToken).ast;
+    expect(node.type).toBe('ConditionalExpression');
+    if (node.type === 'ConditionalExpression') {
+      expect([node.test.type, node.consequent.type, node.alternate.type]).toEqual([
+        'LogicalExpression',
+        'StringLiteral',
+        'NullLiteral'
+      ]);
+    }
+    expect(expression.raw()).toBe(source);
+    expect(expression.code()).toBe('(ready || enabled) ? "Yes" : null');
   });
 
-  it('exposes call operations only for prefixed calls', () => {
-    for (const source of ['$:true', "$:{thing:'other'}", '$:user.name', '$:ready ? greet() : null']) {
-      const expression = parseExpression(source);
-      expect(expression.constructor).toBe(EvaluatedExpression);
-      expect('functionName' in expression).toBe(false);
-      expect('arguments' in expression).toBe(false);
-      expect(new FunctionExpressionParser().tryParse(source)).toBeNull();
-      expect(() => FunctionExpression.parse(source)).toThrow(SyntaxError);
+  it('rejects malformed code and incomplete or reversed token sequences', () => {
+    for (const source of ['$:save(', '$:[1, 2', '$:{name:}']) {
+      expect(() => EvaluatedExpression.parse(source)).toThrow(SyntaxError);
     }
-    for (const source of ['$:save()', '$:save?.()', '$:(save())']) {
-      expect(parseExpression(source).constructor).toBe(FunctionExpression);
-    }
+    expect(new EvaluatedExpression({ tokens: [new PrefixToken()] }).isValid()).toBe(false);
+    expect(new EvaluatedExpression({ tokens: [new JSToken('true'), new PrefixToken()] }).isValid()).toBe(false);
   });
 });

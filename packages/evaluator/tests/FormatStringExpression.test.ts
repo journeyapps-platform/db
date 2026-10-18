@@ -1,7 +1,5 @@
-import { UnknownType, textType } from '@ja-platform/types';
-import { TextType } from '@ja-platform/types';
-import { describe, expect, expectTypeOf, it, vi } from 'vitest';
 import {
+  FormatStringExpressionParser,
   AbstractExpression,
   ConstantExpression,
   FormatShorthandExpression,
@@ -15,6 +13,8 @@ import {
   PrefixToken,
   JSToken
 } from '../src';
+import { UnknownType, textType } from '@ja-platform/types';
+import { describe, expect, expectTypeOf, it, vi } from 'vitest';
 import type { ReferencePath, ValidationContext } from '../src';
 
 describe('FormatStringExpression', () => {
@@ -186,4 +186,26 @@ describe('FormatStringExpression', () => {
       );
     }
   );
+
+  it('preserves offsets through nested placeholders', () => {
+    const format = new FormatStringExpressionParser().tryParse('Hello {$:save(true)}', 100);
+    expect(format.tokens.map((token) => token.start)).toEqual([100, 106]);
+    const placeholder = format.tokens[1] as PlaceholderToken;
+    expect(placeholder.expression).toBeInstanceOf(FunctionExpression);
+    expect(placeholder.children.map((token) => token.start)).toEqual([107, 109]);
+    expect(format.raw()).toBe('Hello {$:save(true)}');
+  });
+
+  it('rejects invalid nested expressions and tokens outside the format grammar', () => {
+    const call = new FunctionExpression({ tokens: [new PrefixToken(), new JSToken('true')] });
+    expect(new FormatStringExpression({ tokens: [new PlaceholderToken(call)] }).isValid()).toBe(false);
+    // @ts-expect-error Exercise runtime validation of a token outside the format grammar.
+    expect(new FormatStringExpression({ tokens: [new JSToken('save()')] }).isValid()).toBe(false);
+    expect(() => FormatStringExpression.parse('{$:save(}')).toThrow(SyntaxError);
+    expect(() => FormatStringExpression.parse('Hello { } {name}')).toThrow(SyntaxError);
+    // @ts-expect-error Constants are not valid format parameters.
+    expect(() => FormatStringExpression.parse('{value}').withParameters([ConstantExpression.parse('45')])).toThrow(
+      SyntaxError
+    );
+  });
 });
