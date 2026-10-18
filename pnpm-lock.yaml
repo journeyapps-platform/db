@@ -36,20 +36,20 @@ importers:
         specifier: ^8.36.1
         version: 8.36.1(encoding@0.1.13)(typescript@5.2.2)
 
-  journeyapps:
-    dependencies:
-      '@ja-platform/core-date':
-        specifier: workspace:*
-        version: link:../journeyapps-core-date
-      '@ja-platform/db':
-        specifier: workspace:*
-        version: link:../journeyapps-db
-
-  journeyapps-core-date:
+  day:
     devDependencies:
       moment:
         specifier: ^2.29.4
         version: 2.30.1
+
+  journeyapps:
+    dependencies:
+      '@ja-platform/day':
+        specifier: workspace:*
+        version: link:../day
+      '@ja-platform/db':
+        specifier: workspace:*
+        version: link:../journeyapps-db
 
   journeyapps-core-xml:
     dependencies:
@@ -69,12 +69,12 @@ importers:
 
   journeyapps-db:
     dependencies:
-      '@ja-platform/core-date':
-        specifier: workspace:*
-        version: link:../journeyapps-core-date
       '@ja-platform/core-xml':
         specifier: workspace:*
         version: link:../journeyapps-core-xml
+      '@ja-platform/day':
+        specifier: workspace:*
+        version: link:../day
       '@ja-platform/evaluator':
         specifier: workspace:*
         version: link:../journeyapps-evaluator
@@ -156,12 +156,12 @@ importers:
 
   journeyapps-parser-schema:
     dependencies:
-      '@ja-platform/core-date':
-        specifier: workspace:*
-        version: link:../journeyapps-core-date
       '@ja-platform/core-xml':
         specifier: workspace:*
         version: link:../journeyapps-core-xml
+      '@ja-platform/day':
+        specifier: workspace:*
+        version: link:../day
       '@ja-platform/evaluator':
         specifier: workspace:*
         version: link:../journeyapps-evaluator

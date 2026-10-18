@@ -4,13 +4,11 @@
     },
     "files": [],
     "references": [
-      {"path": "./journeyapps-types"},
-      {"path": "./journeyapps"},
-      {"path": "./journeyapps-core-date"},
-      {"path": "./journeyapps-core-xml"},
-      {"path": "./journeyapps-db"},
-      {"path": "./journeyapps-evaluator"},
-      {"path": "./journeyapps-parser-common"},
-      {"path": "./journeyapps-parser-schema"},
+      {"path": "./packages/types"},
+      {"path": "./packages/day"},
+      {"path": "./packages/db"},
+      {"path": "./packages/evaluator"},
+      {"path": "./packages/parser-common"},
+      {"path": "./packages/parser-schema"},
     ]
   }

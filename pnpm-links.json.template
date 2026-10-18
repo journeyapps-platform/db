@@ -1,0 +1,12 @@
+{
+  "enabled": [],
+  "groups": [
+    {
+      "name": "common",
+      "links": {
+        "@journeyapps/common-xml": "../../journeyapps/common/packages/xml",
+        "@journeyapps/common-utils": "../../journeyapps/common/packages/utils"
+      }
+    }
+  ]
+}

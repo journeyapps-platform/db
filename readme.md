@@ -1,6 +1,17 @@
-# Journey Lib
+# Journey DB
 
-Journey JavaScript library and database accessor
+Journey database SDK and supporting workspace packages. Customers use `@ja-platform/db`.
+
+## Workspace layout
+
+- `packages/db`: database SDK (`@ja-platform/db`)
+- `packages/day`: date values (`@ja-platform/day`)
+- `packages/evaluator`: expression evaluation
+- `packages/parser-common`: shared parser functionality
+- `packages/parser-schema`: schema parsing
+- `packages/types`: shared types
+
+The legacy `journeyapps` wrapper has been removed. Import SDK exports such as `Database`, `OnlineDB`, and `Day` directly from `@ja-platform/db`.
 
 ## Simple DB Usage
 
@@ -28,6 +39,6 @@ Journey JavaScript library and database accessor
 
 ## Code Installation
 
-1. clone and run `pnpm` in the root & tools folders
+1. clone and run `pnpm install` in the repository root
 2. run `pnpm build` to build.
 3. run `pnpm test` to run all the unit tests.

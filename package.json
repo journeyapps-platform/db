@@ -1,10 +1,9 @@
 {
   "version": "2.29.1",
-  "description": "Journey JS library",
+  "description": "Journey database SDK and supporting packages",
   "private": true,
   "workspaces": [
-    "journeyapps",
-    "journeyapps-*"
+    "packages/*"
   ],
   "scripts": {
     "build": "pnpm -r build",

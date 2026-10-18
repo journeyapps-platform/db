@@ -1,0 +1,33 @@
+{
+  "name": "@ja-platform/parser-schema",
+  "version": "8.2.5",
+  "description": "Journey Parser Schema library",
+  "main": "./dist/index.js",
+  "typings": "./dist/@types/index.d.ts",
+  "scripts": {
+    "build": "tsc --build",
+    "clean": "tsc -b --clean && rm -rf ./dist",
+    "test": "pnpm build && pnpm test:node && pnpm test:browser",
+    "test:browser": "vitest --run --config vitest.config.browser.ts ",
+    "test:node": "vitest --run --config vitest.config.unit.ts"
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@ja-platform/day": "workspace:*",
+    "moment": "^2.29.4",
+    "@journeyapps/common-xml": "5.0.4",
+    "@ja-platform/evaluator": "workspace:*",
+    "@ja-platform/parser-common": "workspace:*",
+    "@ja-platform/types": "workspace:*"
+  },
+  "devDependencies": {
+    "@journeyapps/domparser": "^0.4.1",
+    "stream-browserify": "^3.0.0"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  }
+}
