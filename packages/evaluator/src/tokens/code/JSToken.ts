@@ -23,7 +23,6 @@ export class JSToken extends CodeToken<CallExpression['arguments'][number]> {
   readonly ast: Expression;
   readonly code: string;
   readonly freeIdentifiers: readonly string[];
-  readonly hasTrailingLineComment: boolean;
   private readonly lexemes: readonly { start: number; end: number }[];
 
   constructor(source: string, start = 0) {
@@ -32,7 +31,6 @@ export class JSToken extends CodeToken<CallExpression['arguments'][number]> {
     this.ast = parsed.ast;
     this.code = parsed.code;
     this.freeIdentifiers = Object.freeze(parsed.freeIdentifiers);
-    this.hasTrailingLineComment = parsed.hasTrailingLineComment;
     this.lexemes = parsed.lexemes;
     Object.freeze(this);
   }

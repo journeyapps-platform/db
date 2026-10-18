@@ -26,6 +26,7 @@
     "@types/node": "^26.6.5",
     "@vitest/browser": "^5.0.5",
     "@vitest/browser-webdriverio": "^5.0.0",
+    "@vitest/coverage-v8": "5.0.5",
     "prettier": "3.9.6",
     "typescript": "^7.0.2",
     "vitest": "^5.0.5",

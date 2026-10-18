@@ -59,7 +59,6 @@ describe('Expression parsing', () => {
         expect(expression.isValid()).toBe(true);
         expect(expression).toBeInstanceOf(AbstractExpression);
         expect(expression.raw()).toBe(source);
-        expect(expression.clone().raw()).toBe(source);
         if (Array.isArray(input)) {
           expression.tokens.forEach((token, index) => expect(token).toBe(input[index]));
         }

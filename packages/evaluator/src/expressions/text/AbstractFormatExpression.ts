@@ -1,6 +1,5 @@
-import { placeholderEnd } from '../../utils/formatStringUtils';
 import { ExpressionParser } from '../../ExpressionParser';
-import { AbstractToken, JSToken, ExpressionSource, TextToken, PlaceholderToken } from '../../tokens';
+import { AbstractToken, ExpressionSource, TextToken, PlaceholderToken } from '../../tokens';
 import type { ValidationContext } from '../../definitions/ValidationContext';
 import { AbstractExpression, AbstractExpressionOptions, ExpressionDiagnostic } from '../AbstractExpression';
 
@@ -145,36 +144,13 @@ export abstract class AbstractFormatExpressionParser<
         i++;
         continue;
       }
-      let end = placeholderEnd(source, i);
-      let expression: P;
-      let failure: unknown;
-      // A slash can mean division or a regexp after a block. Babel resolves that ambiguity
-      // if the boundary scanner's first candidate does not form a complete expression.
-      let candidate = end;
-      if (candidate < 0) {
-        candidate = source.indexOf('}', i + 1);
-      }
-      for (; candidate >= 0; candidate = source.indexOf('}', candidate + 1)) {
-        const text = source.slice(i + 1, candidate);
-        if (text.trim() === '') throw new SyntaxError('Expected an expression inside a placeholder.');
-        try {
-          const parsed = this.parsePlaceholder(text, offset + i + 1);
-          if (!parsed) throw new SyntaxError('Expected an expression inside a placeholder.');
-          // A candidate brace at the end of a line comment is part of the comment, not the placeholder.
-          if (parsed.tokens.some((token) => token instanceof JSToken && token.hasTrailingLineComment)) continue;
-          expression = parsed;
-          end = candidate;
-          break;
-        } catch (error) {
-          if (!(error instanceof SyntaxError)) throw error;
-          failure ??= error;
-        }
-      }
-      if (!expression) {
-        // Preserve unmatched opening braces as text, but report errors in a complete placeholder.
-        if (end < 0) break;
-        throw failure ?? new SyntaxError('Expected a closing placeholder brace.');
-      }
+      const end = placeholderEnd({ source, start: i });
+      // Preserve unmatched opening braces as text.
+      if (end < 0) break;
+      const text = source.slice(i + 1, end);
+      if (text.trim() === '') throw new SyntaxError('Expected an expression inside a placeholder.');
+      const expression = this.parsePlaceholder(text, offset + i + 1);
+      if (!expression) throw new SyntaxError('Expected an expression inside a placeholder.');
       if (i > start) tokens.push(new TextToken(source.slice(start, i), offset + start));
       expression.start = offset + i;
       tokens.push(new PlaceholderToken(expression, offset + i));
@@ -184,4 +160,29 @@ export abstract class AbstractFormatExpressionParser<
     if (start < source.length) tokens.push(new TextToken(source.slice(start), offset + start));
     return tokens;
   }
+}
+
+/**
+ * Balance placeholder braces independently of the embedded language. Single, double and
+ * backtick quotes are opaque spans with backslash escapes; comments, regex literals and
+ * nested template interpolation have no special boundary rules.
+ * Return -1 for an unmatched opening brace or unfinished quoted span.
+ */
+function placeholderEnd({ source, start }: { source: string; start: number }): number {
+  let depth = 1;
+  let quote = '';
+  for (let i = start + 1; i < source.length; i++) {
+    const char = source[i];
+    if (quote) {
+      if (char === '\\') i++;
+      else if (char === quote) quote = '';
+    } else if (char === "'" || char === '"' || char === '`') {
+      quote = char;
+    } else if (char === '{') {
+      depth++;
+    } else if (char === '}' && --depth === 0) {
+      return i;
+    }
+  }
+  return -1;
 }

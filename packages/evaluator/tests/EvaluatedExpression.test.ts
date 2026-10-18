@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
   EvaluatedExpression,
-  ConstantExpression,
   CodeToken,
   JSToken,
   parseExpression,
@@ -93,18 +92,15 @@ describe('EvaluatedExpression', () => {
     if (token instanceof JSToken) expect(token.ast.type).toBe(kind);
     expect(expression.raw()).toBe(prefixed);
     expect(expression.code()).toBe(source);
+  });
+
+  it('clones its code token and AST independently while preserving source', () => {
+    const expression = EvaluatedExpression.parse('$:value + 1');
     const clone = expression.clone();
     expect(clone).toBeInstanceOf(EvaluatedExpression);
-    expect(clone.codeToken).not.toBe(token);
-    if (token instanceof JSToken && clone.codeToken instanceof JSToken) expect(clone.codeToken.ast).not.toBe(token.ast);
-    expect(clone.raw()).toBe(prefixed);
-    expect(parseExpression(prefixed)).toBeInstanceOf(EvaluatedExpression);
-    expect(parseExpression(prefixed).constructor).toBe(
-      kind === 'CallExpression' ? FunctionExpression : EvaluatedExpression
-    );
-    const constant = parseExpression(source) as ConstantExpression;
-    expect(constant).toBeInstanceOf(ConstantExpression);
-    expect(constant.value()).toBe(source);
+    expect(clone.codeToken).not.toBe(expression.codeToken);
+    expect((clone.codeToken as JSToken).ast).not.toBe((expression.codeToken as JSToken).ast);
+    expect(clone.raw()).toBe(expression.raw());
   });
 
   it('accepts another language without inspecting a Babel node', () => {

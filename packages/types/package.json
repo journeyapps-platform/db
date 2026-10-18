@@ -5,6 +5,7 @@
   "main": "./dist/index.js",
   "typings": "./dist/@types/index.d.ts",
   "scripts": {
+    "test": "vitest run --configLoader runner --config vitest.config.unit.ts",
     "watch": "tsc -b --watch"
   },
   "files": [

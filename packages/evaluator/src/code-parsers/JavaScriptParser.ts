@@ -7,7 +7,6 @@ export interface ParsedJavaScript {
   ast: Expression;
   code: string;
   freeIdentifiers: readonly string[];
-  hasTrailingLineComment: boolean;
   lexemes: readonly { start: number; end: number }[];
 }
 
@@ -31,7 +30,6 @@ export class JavaScriptParser implements CodeLanguageParser<ParsedJavaScript> {
       }
       ast = result.program.body[0].expression;
     }
-    const comment = result.comments?.[result.comments.length - 1];
     // Executable text excludes surrounding trivia and a trailing semicolon. Token offsets preserve
     // grouping parentheses, which Babel's expression node range may omit.
     const tokens = result.tokens.filter(
@@ -54,7 +52,6 @@ export class JavaScriptParser implements CodeLanguageParser<ParsedJavaScript> {
       ast,
       freeIdentifiers: [...freeIdentifiers],
       code: source.slice(tokens[0].start, tokens[tokens.length - 1].end),
-      hasTrailingLineComment: comment?.type === 'CommentLine' && comment.end === source.length,
       lexemes: Object.freeze(tokens.map((token: any) => Object.freeze({ start: token.start, end: token.end })))
     };
   }

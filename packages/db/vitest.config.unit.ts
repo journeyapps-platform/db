@@ -4,7 +4,6 @@ export default defineConfig({
   test: {
     include: ['./tests/**/*.test.ts'],
     reporters: 'default',
-    environment: 'jsdom',
-    setupFiles: ['./tests/setup/databaseSetup.ts']
+    environment: 'jsdom'
   }
 });

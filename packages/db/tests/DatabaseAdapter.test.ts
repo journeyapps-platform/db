@@ -1,4 +1,5 @@
 import { SchemaModelType, Query, WebSQLAdapter } from '../src';
+import './setup/databaseSetup';
 import { describe, it, expect, beforeEach } from 'vitest';
 import * as uuid from 'uuid';
 

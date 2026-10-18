@@ -77,7 +77,6 @@ describe('Code parsing batches', () => {
     const next = FunctionExpression.parse(expression.raw());
     expect(countingParser.parse).toHaveBeenCalledTimes(2);
     expect(expression.raw()).toBe(next.raw());
-    expect((expression.codeToken as JSToken).hasTrailingLineComment).toBe(true);
     expect(expression.codeToken.sourceOf(expression.arguments[0])).toBe('(user.name)');
     expect(expression.withName('send').raw()).toBe('$:send((user.name), true); // keep');
   });

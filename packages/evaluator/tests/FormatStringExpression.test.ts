@@ -108,14 +108,11 @@ describe('FormatStringExpression', () => {
     '{$:foo({myObject: 2})}',
     '{$:foo("{")}',
     '{$:foo("it\\"s } fine")}',
-    '{$:/[}]/.test(value)}',
-    '{$:foo(/* } */ 2)}',
-    '{$:foo(`outer ${`inner ${value}`}`)}',
-    '{$:value / 2 + /[}]/.test(name)}',
-    '{$:save( // }\n true )}',
+    "{$:foo('}')}",
+    '{$:foo(`literal } text`)}',
+    '{$:value / 2}',
     '{$:items.map(({name}) => ({label: `${name}`}))}',
-    '{$:(() => { if (ready) {} /[}]/.test(name); return true; })()}',
-    '{$:(() => { if (ready) {} else /[}]/.test(name); return true; })()}',
+    '{$:(() => { if (ready) { return {value: 1}; } return {}; })()}',
     '{prices["currency:USD"] : .2f }'
   ])('parses nested syntax without treating its braces as format delimiters: %s', (placeholder) => {
     const source = `Before ${placeholder} after`;
@@ -127,6 +124,12 @@ describe('FormatStringExpression', () => {
     expect(expression.parameters[0].start).toBe(7);
     expect(expression.tokens.filter((token) => token instanceof PlaceholderToken)).toHaveLength(1);
     expect(expression.raw()).toBe(source);
+  });
+
+  it('validates each delimited body without consuming later placeholders to repair invalid code', () => {
+    for (const source of ['Before {$:value +} after {name}', '{$:/[}]/.test(value)}', '{$:foo(/* } */ 2)}', '{}']) {
+      expect(() => FormatStringExpression.parse(source)).toThrow(SyntaxError);
+    }
   });
 
   it('encodes constructed text and expressions for their destination syntax', () => {

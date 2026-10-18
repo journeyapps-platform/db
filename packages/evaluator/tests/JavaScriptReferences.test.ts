@@ -76,7 +76,6 @@ describe('JavaScript reference rewriting', () => {
     const original = new JSToken(' /* before */ print(/* argument */ message); // after', 7);
     const rewritten = original.rewriteReferences(replaceMessage);
     expect(rewritten.raw()).toBe(" /* before */ print(/* argument */ 'Hello'); // after");
-    expect(rewritten.hasTrailingLineComment).toBe(true);
   });
 
   it('keeps replacement precedence and expands object shorthand values', () => {
