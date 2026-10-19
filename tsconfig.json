@@ -1,14 +1,27 @@
 {
-    "compilerOptions": {
-      "incremental": true
-    },
-    "files": [],
-    "references": [
-      {"path": "./packages/types"},
-      {"path": "./packages/day"},
-      {"path": "./packages/db"},
-      {"path": "./packages/evaluator"},
-      {"path": "./packages/parser-common"},
-      {"path": "./packages/parser-schema"},
-    ]
-  }
+  "compilerOptions": {
+    "target": "es2017",
+    "lib": [
+      "dom",
+      "esnext"
+    ],
+    "composite": true,
+    "strict": false,
+    "moduleResolution": "nodenext",
+    "module": "nodenext",
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "stripInternal": true,
+    "incremental": true,
+    "inlineSources": true,
+    "esModuleInterop": true,
+    "declaration": true,
+    "declarationDir": "dist/@types",
+    "rootDir": "src",
+    "outDir": "dist",
+    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
+  },
+  "include": [
+    "./src/**/*.ts"
+  ]
+}

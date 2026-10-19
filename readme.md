@@ -1,21 +1,10 @@
-# Journey DB
+# JourneyApps Platform Lib
 
-Journey database SDK and supporting workspace packages. Customers use `@ja-platform/db`.
-
-## Workspace layout
-
-- `packages/db`: database SDK (`@ja-platform/db`)
-- `packages/day`: date values (`@ja-platform/day`)
-- `packages/evaluator`: expression evaluation
-- `packages/parser-common`: shared parser functionality
-- `packages/parser-schema`: schema parsing
-- `packages/types`: shared types
-
-The legacy `journeyapps` wrapper has been removed. Import SDK exports such as `Database`, `OnlineDB`, and `Day` directly from `@ja-platform/db`.
+The JourneyApps Platform database SDK, published as `@ja-platform/db`.
 
 ## Simple DB Usage
 
-1. Get the module from yarn
+1. Install the database SDK with pnpm
 
     `pnpm add @ja-platform/db`
 
@@ -39,9 +28,9 @@ The legacy `journeyapps` wrapper has been removed. Import SDK exports such as `D
 
 ## Code Installation
 
-Use Node 24 for development (`nvm install && nvm use`). The DB, evaluator, and parser packages require Node `^22.18.0 || >=24.11.0` because they depend on Babel 8.
+Use Node 24 for development (`nvm install && nvm use`). The database SDK requires Node `^22.19.0 || ^24.11.0 || >=26.0.0` because its parser dependencies use Babel 8.
 
-CI runs the same `pnpm test` suite, including browser tests, on Node 22, 24, and 26 using a GitHub Actions matrix.
+CI runs the same `pnpm test` suite on Node 22, 24, and 26 using a GitHub Actions matrix.
 
 1. clone and run `pnpm install` in the repository root
 2. run `pnpm build` to build.
