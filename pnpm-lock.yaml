@@ -164,8 +164,6 @@ settings:
 
 pnpmfileChecksum: sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=
 
-untrackedPnpmfileReadPackageHook: true
-
 importers:
 
   .:
