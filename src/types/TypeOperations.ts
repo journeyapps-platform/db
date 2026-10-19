@@ -1,6 +1,7 @@
-import { Type, ObjectType, QueryType } from '@ja-platform/parser-type-system';
+import { Type, ObjectType } from '@ja-platform/parser-type-system';
+import { QueryType, DateType, PrimitiveType, Day } from '@ja-platform/parser-schema';
 import type { Formatter } from '@ja-platform/parser-type-system';
-import { DateType, PrimitiveType, Day } from '@ja-platform/parser-schema';
+
 import { Location } from './Location';
 import * as uuid from 'uuid';
 import { Attachment, toBackendData } from './Attachment';

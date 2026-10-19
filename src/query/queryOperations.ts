@@ -4,8 +4,8 @@ import { operationsFor } from '../types/TypeOperations';
 // It contains the logic to filter a single object based on an expression.
 // It is up to the database adapters to perform optimised queries based on an index.
 
-import { SchemaModelType, Variable, Day } from '@ja-platform/parser-schema';
-import { ArrayType, QueryType } from '@ja-platform/parser-type-system';
+import { SchemaModelType, Variable, Day, QueryType } from '@ja-platform/parser-schema';
+import { ArrayType } from '@ja-platform/parser-type-system';
 
 import { ObjectData } from '../types/ObjectData';
 

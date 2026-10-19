@@ -2,8 +2,7 @@ import * as database from './database/Database';
 import * as query from './query/queryOperations';
 
 // Convenience export
-export { Day } from '@ja-platform/parser-schema';
-export { Variable } from '@ja-platform/parser-schema';
+export { Day, Variable, SchemaModelType, SchemaModelTypeFactory, QueryType } from '@ja-platform/parser-schema';
 
 /**
  * @deprecated
@@ -18,8 +17,9 @@ export * from './Schema';
 export { Type } from '@ja-platform/parser-type-system';
 export * from './types/TypeOperations';
 export * from './types/ObjectData';
-export { SchemaModelType, SchemaModelTypeFactory } from '@ja-platform/parser-schema';
-export { ArrayType, QueryType } from '@ja-platform/parser-type-system';
+
+export { ArrayType } from '@ja-platform/parser-type-system';
+
 export * from './types/Location';
 export { Attachment } from './types/Attachment';
 
