@@ -17,11 +17,11 @@
   ],
   "dependencies": {
     "@ja-platform/day": "workspace:*",
-    "moment": "^2.31.0",
-    "@journeyapps/common-xml": "5.0.4",
     "@ja-platform/evaluator": "workspace:*",
     "@ja-platform/parser-common": "workspace:*",
-    "@ja-platform/types": "workspace:*"
+    "@ja-platform/types": "workspace:*",
+    "@journeyapps/common-xml": "0.0.0-dev-20261019030214",
+    "moment": "^2.31.0"
   },
   "devDependencies": {
     "@journeyapps/domparser": "^0.4.1",

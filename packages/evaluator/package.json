@@ -17,11 +17,11 @@
     "dist"
   ],
   "dependencies": {
-    "@babel/types": "^8.0.6",
     "@babel/parser": "^8.0.7",
-    "@journeyapps/common-xml": "5.0.4",
     "@babel/traverse": "^8.0.7",
-    "@ja-platform/types": "workspace:*"
+    "@babel/types": "^8.0.6",
+    "@ja-platform/types": "workspace:*",
+    "@journeyapps/common-xml": "0.0.0-dev-20261019030214"
   },
   "devDependencies": {
     "@types/babel__traverse": "^7.28.0"

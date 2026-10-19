@@ -13,9 +13,9 @@
     "test:node": "vitest --run --configLoader runner --config vitest.config.unit.ts"
   },
   "dependencies": {
-    "@journeyapps/common-xml": "5.0.4",
-    "@journeyapps/domparser": "^0.4.1",
     "@ja-platform/evaluator": "workspace:*",
+    "@journeyapps/common-xml": "0.0.0-dev-20261019030214",
+    "@journeyapps/domparser": "^0.4.1",
     "io-ts": "^2.2.22"
   },
   "devDependencies": {
