@@ -1,5 +1,5 @@
+import { loadSchemaXml } from '@ja-platform/parser-schema-xml';
 import { ApiAdapterOptions, JourneyAPIAdapter } from './JourneyAPIAdapter';
-import { Version } from '@ja-platform/parser-schema';
 import { ApiCredentialOptions, ApiCredentials } from '../credentials/ApiCredentials';
 import { Database } from './Database';
 import { DBSchema } from '../Schema';
@@ -13,9 +13,7 @@ export function OnlineDB(options: OnlineDBCredentials) {
   const fs = require('fs');
 
   const datamodelXml = fs.readFileSync(options.dataModelPath, 'utf8');
-  const schema = new DBSchema().loadXml(datamodelXml, {
-    apiVersion: new Version('4.0')
-  });
+  const schema = loadSchemaXml({ source: datamodelXml });
   const credentials = new ApiCredentials(options);
 
   const adapter = new JourneyAPIAdapter(credentials, schema, options.adapter);

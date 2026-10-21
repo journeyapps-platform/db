@@ -1,20 +1,20 @@
 import { Day } from '@ja-platform/parser-schema';
 import { describe, it, expect, beforeEach } from 'vitest';
-import { DBSchema as Schema, query, SchemaModelType, Variable } from '../src';
+import { DBSchema as Schema, query, SchemaModelType, Field } from '../src';
 
 declare module 'vitest' {
   export interface TestContext {
     schema: Schema;
     scope: SchemaModelType;
     variables: {
-      color: Variable;
-      colors: Variable;
-      number: Variable;
-      day: Variable;
-      date: Variable;
-      datetime: Variable;
-      ownerId: Variable;
-      owner: Variable;
+      color: Field;
+      colors: Field;
+      number: Field;
+      day: Field;
+      date: Field;
+      datetime: Field;
+      ownerId: Field;
+      owner: Field;
     };
   }
 }
@@ -36,22 +36,22 @@ describe('Queries', () => {
     const scope = new SchemaModelType(null);
 
     scope.name = 'TestScope';
-    scope.addAttribute(schema.variable('id', schema.primitive('text')));
-    scope.addAttribute(schema.variable('make', schema.primitive('text')));
-    scope.addAttribute(schema.variable('model', schema.primitive('text')));
-    scope.addAttribute(schema.variable('score', schema.primitive('integer')));
-    scope.addAttribute(schema.variable('date', schema.primitive('date')));
-    scope.addAttribute(schema.variable('datetime', schema.primitive('datetime')));
+    scope.addAttribute(schema.field('id', schema.primitive('text')));
+    scope.addAttribute(schema.field('make', schema.primitive('text')));
+    scope.addAttribute(schema.field('model', schema.primitive('text')));
+    scope.addAttribute(schema.field('score', schema.primitive('integer')));
+    scope.addAttribute(schema.field('date', schema.primitive('date')));
+    scope.addAttribute(schema.field('datetime', schema.primitive('datetime')));
 
-    const color = schema.variable('colour', schema.primitive('text'));
-    const colors = schema.variable('colours', schema.primitive('multiple-choice'));
+    const color = schema.field('colour', schema.primitive('text'));
+    const colors = schema.field('colours', schema.primitive('multiple-choice'));
     colors.type.addOption('red', 'Red', 0);
     colors.type.addOption('green', 'Green', 1);
     colors.type.addOption('blue', 'Blue', 2);
-    const day = schema.variable('day', schema.primitive('date'));
+    const day = schema.field('day', schema.primitive('date'));
     day.type.isDay = true;
-    const ownerId = schema.variable('owner_id', schema.primitive('text'));
-    const owner = schema.variable('owner', schema.newObjectType());
+    const ownerId = schema.field('owner_id', schema.primitive('text'));
+    const owner = schema.field('owner', schema.newObjectType());
     ownerId.relationship = 'owner';
     owner.relationship = 'owner';
 
@@ -69,9 +69,9 @@ describe('Queries', () => {
     context.variables.colors = colors;
     context.variables.owner = owner;
     context.variables.ownerId = ownerId;
-    context.variables.number = schema.variable('number', schema.primitive('integer'));
-    context.variables.date = schema.variable('date', schema.primitive('date'));
-    context.variables.datetime = schema.variable('datetime', schema.primitive('datetime'));
+    context.variables.number = schema.field('number', schema.primitive('integer'));
+    context.variables.date = schema.field('date', schema.primitive('date'));
+    context.variables.datetime = schema.field('datetime', schema.primitive('datetime'));
   });
 
   describe('Expression parsing', () => {

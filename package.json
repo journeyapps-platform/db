@@ -24,26 +24,27 @@
     "@changesets/cli": "^3.0.3",
     "@journeyapps/domparser": "^0.4.1",
     "@types/node": "^26.6.5",
+    "@types/node-fetch": "^2.6.13",
     "@vitest/coverage-v8": "5.0.5",
+    "fetch-mock": "^12.6.0",
+    "jsdom": "24.0.0",
+    "npm-check-updates": "^23.1.0",
     "prettier": "3.9.6",
+    "sqlite3": "^6.0.1",
     "typescript": "^7.0.2",
     "vitest": "^5.0.5",
-    "@types/node-fetch": "^2.6.13",
-    "fetch-mock": "^12.6.0",
-    "sqlite3": "^6.0.1",
-    "websql": "^2.0.3",
-    "jsdom": "24.0.0",
-    "npm-check-updates": "^23.1.0"
+    "websql": "^2.0.3"
   },
   "dependencies": {
-    "@ja-platform/parser-schema": "0.0.0-dev-20261019214152",
-    "@journeyapps/common-xml": "0.0.0-dev-20261019030214",
+    "@ja-platform/parser-expressions": "0.0.0-dev-20261021195551",
+    "@ja-platform/parser-schema": "0.0.0-dev-20261021195551",
+    "@ja-platform/parser-schema-xml": "0.0.0-dev-20261021195551",
+    "@ja-platform/parser-type-system": "0.0.0-dev-20261021195551",
+    "@journeyapps/common-xml": "0.0.0-dev-20261021193021",
     "isomorphic-fetch": "^3.0.0",
     "lodash": "^4.18.1",
     "uuid": "^14.0.3",
-    "xmldom": "^0.6.0",
-    "@ja-platform/parser-expressions": "0.0.0-dev-20261019214152",
-    "@ja-platform/parser-type-system": "0.0.0-dev-20261019214152"
+    "xmldom": "^0.6.0"
   },
   "files": [
     "dist"

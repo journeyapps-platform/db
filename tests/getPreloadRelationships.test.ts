@@ -1,13 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { FormatStringExpression } from '@ja-platform/parser-expressions';
-import {
-  Schema,
-  SchemaModelType,
-  SchemaObjectDisplayExpression,
-  Variable,
-  parser2 as schemaParserV2
-} from '@ja-platform/parser-schema';
-import { parse as parseXML } from '@journeyapps/common-xml';
+import { Schema, SchemaModelType, SchemaObjectDisplayExpression, Field } from '@ja-platform/parser-schema';
 import { getPreloadRelationships } from '../src/query/getPreloadRelationships';
 
 describe('getPreloadRelationships', () => {
@@ -18,18 +11,18 @@ describe('getPreloadRelationships', () => {
   beforeEach(() => {
     schema = new Schema();
     const categoryType = schema.newObjectType('category');
-    categoryType.addAttribute(schema.variable('name', 'text'));
+    categoryType.addAttribute(schema.field('name', 'text'));
     categoryType.displayFormat = SchemaObjectDisplayExpression.parse('{name}');
 
     companyType = schema.newObjectType('company');
-    companyType.addAttribute(schema.variable('name', 'text'));
-    companyType.addAttribute(new Variable('category', categoryType));
+    companyType.addAttribute(schema.field('name', 'text'));
+    companyType.addAttribute(new Field('category', categoryType));
     companyType.displayFormat = SchemaObjectDisplayExpression.parse('{name} {category}');
 
     personType = schema.newObjectType('person');
-    personType.addAttribute(schema.variable('name', 'text'));
-    personType.addAttribute(schema.variable('surname', 'text'));
-    personType.addAttribute(new Variable('company', companyType));
+    personType.addAttribute(schema.field('name', 'text'));
+    personType.addAttribute(schema.field('surname', 'text'));
+    personType.addAttribute(new Field('company', companyType));
     personType.displayFormat = SchemaObjectDisplayExpression.parse('{name}');
   });
 
@@ -101,20 +94,11 @@ describe('getPreloadRelationships', () => {
   });
 
   it('should handle recursive display names', () => {
-    const element = parseXML(
-      '<object name="asset" label="Asset">' +
-        '<attribute name="serial_number" label="Serial Number" type="string" />' +
-        '<belongs_to name="asset" type="asset"/>' +
-        '<display format="Asset: {asset}" />' +
-        '</object>'
-    ).documentElement;
-
-    const parser = schemaParserV2(schema);
-    const assetType = parser.parseObjectType(element);
+    const assetType = schema.newObjectType('asset');
+    assetType.addAttribute(schema.field('serial_number', 'text'));
     schema.objects[assetType.name] = assetType;
-    parser.parseBelongsTo(assetType, element);
-    parser.parseDisplay(assetType, element);
-    expect(parser.getErrors()).toEqual([]);
+    assetType.addBelongsTo({ schema, name: 'asset', type: 'asset' });
+    assetType.displayFormat = SchemaObjectDisplayExpression.parse('Asset: {asset}');
 
     // It is not important what exactly the structure is, as long as it doesn't throw an error
     const structure = getPreloadRelationships(assetType);

@@ -1,16 +1,14 @@
 allowBuilds:
   sqlite3: true
 minimumReleaseAgeExclude:
-  - '@journeyapps/common-xml@0.0.0-dev-20261019030214'
+  - '@journeyapps/*'
+  - '@ja-platform/*'
   - '@wdio/config@10.1.0'
   - '@wdio/logger@10.1.0'
   - '@wdio/types@10.1.0'
   - '@wdio/utils@10.1.0'
   - webdriver@10.1.0
   - webdriverio@10.1.0
-  - '@ja-platform/parser-expressions@0.0.0-dev-20261019214152'
-  - '@ja-platform/parser-schema@0.0.0-dev-20261019214152'
-  - '@ja-platform/parser-type-system@0.0.0-dev-20261019214152'
 permissions:
   build:
     build: true
@@ -19,3 +17,5 @@ permissions:
     build: false
   geckodriver:
     build: false
+overrides:
+  '@ja-platform/parser-core': 0.0.0-dev-20261021195551

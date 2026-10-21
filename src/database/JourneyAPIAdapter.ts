@@ -1,8 +1,9 @@
+import { loadSchemaXml } from '@ja-platform/parser-schema-xml';
 import 'isomorphic-fetch';
 import { retryableFetch } from '../utils/retryableFetch';
 import type { Response, RequestInit } from 'node-fetch';
 import { BaseAdapter } from './adapters/BaseAdapter';
-import { SchemaModelType, Variable, Relationship, ChoiceType, Version } from '@ja-platform/parser-schema';
+import { SchemaModelType, Field, Relationship, ChoiceType } from '@ja-platform/parser-schema';
 import { Query } from '../query/Query';
 import { ExecuteBatchOperation } from './Batch';
 import { ObjectData, PersistedObjectData } from '../types/ObjectData';
@@ -51,7 +52,7 @@ export class JourneyAPIAdapter extends BaseAdapter {
       belongs_to: {}
     };
 
-    forEach(type.attributes, function (attr: Variable) {
+    forEach(type.attributes, function (attr: Field) {
       const name = attr.name;
       if (attr.type.name == 'attachment') {
         if (apiObj[name + '_id']) {
@@ -248,8 +249,7 @@ export class JourneyAPIAdapter extends BaseAdapter {
     }
     const xml = await response.text();
 
-    this.schema = new DBSchema();
-    this.schema.loadXml(xml, { apiVersion: new Version('4.0') });
+    this.schema = loadSchemaXml({ source: xml });
   }
 
   public apiGet(url: string): Promise<any> {

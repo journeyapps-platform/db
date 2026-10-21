@@ -1,4 +1,4 @@
-import { Version } from '@ja-platform/parser-schema';
+import { loadSchemaXml } from '@ja-platform/parser-schema-xml';
 import { beforeAll } from 'vitest';
 import { Database, DBSchema as Schema, WebSQLAdapter } from '../../src';
 
@@ -11,8 +11,6 @@ beforeAll(async () => {
   }
 });
 
-const v3 = new Version('3.1');
-
 export interface DBTestContext {
   adapter: WebSQLAdapter;
   schema: Schema;
@@ -24,7 +22,7 @@ export async function setupContext(schemaXML: string): Promise<DBTestContext> {
   const adapter = new WebSQLAdapter({ name: 'objects', stf: false });
   await adapter.open();
 
-  const schema = new Schema().loadXml(schemaXML, { apiVersion: v3 });
+  const schema = loadSchemaXml({ source: schemaXML });
   const db = new Database(schema, adapter);
 
   return {

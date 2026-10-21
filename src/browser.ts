@@ -2,7 +2,7 @@ import * as database from './database/Database';
 import * as query from './query/queryOperations';
 
 // Convenience export
-export { Day, Variable, SchemaModelType, SchemaModelTypeFactory, QueryType } from '@ja-platform/parser-schema';
+export { Day, Field, SchemaModelType, SchemaModelTypeFactory, QueryType } from '@ja-platform/parser-schema';
 
 /**
  * @deprecated

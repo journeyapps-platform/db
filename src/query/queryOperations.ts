@@ -4,7 +4,7 @@ import { operationsFor } from '../types/TypeOperations';
 // It contains the logic to filter a single object based on an expression.
 // It is up to the database adapters to perform optimised queries based on an index.
 
-import { SchemaModelType, Variable, Day, QueryType } from '@ja-platform/parser-schema';
+import { SchemaModelType, Field, Day, QueryType } from '@ja-platform/parser-schema';
 import { ArrayType } from '@ja-platform/parser-type-system';
 
 import { ObjectData } from '../types/ObjectData';
@@ -43,11 +43,11 @@ export interface Expression {
 }
 
 export class Operation implements Expression {
-  attribute: Variable;
+  attribute: Field;
   operator: string;
   value: any;
 
-  constructor(attribute: Variable, operator: string, value: any) {
+  constructor(attribute: Field, operator: string, value: any) {
     this.attribute = attribute;
     this.operator = operator;
     this.value = value;
