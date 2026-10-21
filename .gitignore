@@ -13,3 +13,5 @@ tsconfig.tsbuildinfo
 .pnpm-debug.log
 
 .github/ci
+
+pnpm-links.json

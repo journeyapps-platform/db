@@ -1,0 +1,21 @@
+import { loadSchemaXml } from '@ja-platform/parser-schema-xml';
+import { ApiAdapterOptions, JourneyAPIAdapter } from './JourneyAPIAdapter';
+import { ApiCredentialOptions, ApiCredentials } from '../credentials/ApiCredentials';
+import { Database } from './Database';
+import { DBSchema } from '../Schema';
+
+export interface OnlineDBCredentials extends ApiCredentialOptions {
+  adapter?: ApiAdapterOptions;
+  dataModelPath?: string;
+}
+
+export function OnlineDB(options: OnlineDBCredentials) {
+  const fs = require('fs');
+
+  const datamodelXml = fs.readFileSync(options.dataModelPath, 'utf8');
+  const schema = loadSchemaXml({ source: datamodelXml });
+  const credentials = new ApiCredentials(options);
+
+  const adapter = new JourneyAPIAdapter(credentials, schema, options.adapter);
+  return new Database(schema, adapter);
+}

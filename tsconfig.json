@@ -1,16 +1,27 @@
 {
-    "compilerOptions": {
-      "incremental": true
-    },
-    "files": [],
-    "references": [
-      {"path": "./journeyapps"},
-      {"path": "./journeyapps-core-date"},
-      {"path": "./journeyapps-core-xml"},
-      {"path": "./journeyapps-db"},
-      {"path": "./journeyapps-evaluator"},
-      {"path": "./journeyapps-parser-common"},
-      {"path": "./journeyapps-parser-schema"},
-    ]
-  }
-  
+  "compilerOptions": {
+    "target": "es2017",
+    "lib": [
+      "dom",
+      "esnext"
+    ],
+    "composite": true,
+    "strict": false,
+    "moduleResolution": "nodenext",
+    "module": "nodenext",
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "stripInternal": true,
+    "incremental": true,
+    "inlineSources": true,
+    "esModuleInterop": true,
+    "declaration": true,
+    "declarationDir": "dist/@types",
+    "rootDir": "src",
+    "outDir": "dist",
+    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
+  },
+  "include": [
+    "./src/**/*.ts"
+  ]
+}

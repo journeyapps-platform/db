@@ -10,8 +10,12 @@ env:
 
 jobs:
   build:
-    name: Test
+    name: Test (Node ${{ matrix.node }})
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [22, 24, 26]
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
@@ -26,7 +30,7 @@ jobs:
       - name: Setup NodeJS
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: ${{ matrix.node }}
 
       - name: Enable Corepack
         run: |
@@ -41,12 +45,5 @@ jobs:
       - name: Install Dependencies
         run: pnpm install
 
-      - uses: browser-actions/setup-chrome@latest
-
-      - name: Check Chrome
-        run: chrome --version
-
-      - name: Run headless test
-        uses: GabrielBB/xvfb-action@v1
-        with:
-          run: pnpm test
+      - name: Test
+        run: pnpm test
