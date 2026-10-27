@@ -30,7 +30,7 @@ The JourneyApps Platform database SDK, published as `@ja-platform/db`.
 
 Use Node 24 for development (`nvm install && nvm use`). The database SDK requires Node `^22.19.0 || ^24.11.0 || >=26.0.0` because its parser dependencies use Babel 8.
 
-CI runs the same `pnpm test` suite on Node 22, 24, and 26 using a GitHub Actions matrix.
+CI runs `pnpm test` using the Node version in `.nvmrc`.
 
 1. clone and run `pnpm install` in the repository root
 2. run `pnpm build` to build.

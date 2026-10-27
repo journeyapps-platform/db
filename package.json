@@ -16,8 +16,7 @@
     "test": "pnpm build && pnpm test:node",
     "watch": "tsc -b -w",
     "format": "prettier --write \"**/*.{ts,tsx,mts,cts,js,jsx,mjs,cjs}\"",
-    "ci:publish": "changeset publish && git push --follow-tags",
-    "ci:version": "changeset version && pnpm install --no-frozen-lockfile",
+    "release": "pnpm build && pnpm changeset publish",
     "test:node": "vitest --run --configLoader runner --config vitest.config.unit.ts"
   },
   "devDependencies": {
@@ -36,10 +35,10 @@
     "websql": "^2.0.3"
   },
   "dependencies": {
-    "@ja-platform/parser-expressions": "0.0.0-dev-20261021195551",
-    "@ja-platform/parser-schema": "0.0.0-dev-20261021195551",
-    "@ja-platform/parser-schema-xml": "0.0.0-dev-20261021195551",
-    "@ja-platform/parser-type-system": "0.0.0-dev-20261021195551",
+    "@ja-platform/parser-expressions": "0.0.0-dev-20261027003550",
+    "@ja-platform/parser-schema": "0.0.0-dev-20261027003550",
+    "@ja-platform/parser-schema-xml": "0.0.0-dev-20261027003550",
+    "@ja-platform/parser-type-system": "0.0.0-dev-20261027003550",
     "@journeyapps/common-xml": "0.0.0-dev-20261021193021",
     "isomorphic-fetch": "^3.0.0",
     "lodash": "^4.18.1",

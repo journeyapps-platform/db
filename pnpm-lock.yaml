@@ -162,9 +162,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-overrides:
-  '@ja-platform/parser-core': 0.0.0-dev-20261021195551
-
 untrackedPnpmfileReadPackageHook: false
 
 importers:
@@ -172,17 +169,17 @@ importers:
   .:
     dependencies:
       '@ja-platform/parser-expressions':
-        specifier: 0.0.0-dev-20261021195551
-        version: 0.0.0-dev-20261021195551
+        specifier: 0.0.0-dev-20261027003550
+        version: 0.0.0-dev-20261027003550
       '@ja-platform/parser-schema':
-        specifier: 0.0.0-dev-20261021195551
-        version: 0.0.0-dev-20261021195551
+        specifier: 0.0.0-dev-20261027003550
+        version: 0.0.0-dev-20261027003550
       '@ja-platform/parser-schema-xml':
-        specifier: 0.0.0-dev-20261021195551
-        version: 0.0.0-dev-20261021195551
+        specifier: 0.0.0-dev-20261027003550
+        version: 0.0.0-dev-20261027003550
       '@ja-platform/parser-type-system':
-        specifier: 0.0.0-dev-20261021195551
-        version: 0.0.0-dev-20261021195551
+        specifier: 0.0.0-dev-20261027003550
+        version: 0.0.0-dev-20261027003550
       '@journeyapps/common-xml':
         specifier: 0.0.0-dev-20261021193021
         version: 0.0.0-dev-20261021193021
@@ -378,24 +375,27 @@ packages:
     resolution: {integrity: sha512-wgm9Ehl2jpeqP3zw/7mo3kRHFp5MEDhqAdwy1fTGkHAwnkGOVsgpvQhL8B5n1qlb01jV3n/bI0ZfZp5lWA1k4w==}
     engines: {node: '>=18.0.0'}
 
-  '@ja-platform/parser-core@0.0.0-dev-20261021195551':
-    resolution: {integrity: sha512-HSmcYOCALmLkIFzAQ7QzJYiyR36kqy5DZMmqidQ5mk4t0iyEZokI0NCIkwLN1f8jAYUiydxMRTmncpvMf9gxyA==}
+  '@ja-platform/parser-core@0.0.0-dev-20261027003550':
+    resolution: {integrity: sha512-ogWPVEMOVeKDA9adCDxA60E1JjgM9Yf9vKzL+/EePVhOqNncGq+frNBccaP2JvMLpQ9U6jwSVxlQg38YClk3xQ==}
     engines: {node: ^22.19.0 || ^24.11.0 || >=26.0.0}
 
-  '@ja-platform/parser-expressions@0.0.0-dev-20261021195551':
-    resolution: {integrity: sha512-UCAI1uKzkUiNzuGFOgBOmPi2uFUGlIx+gPauF7fYr8F5iMHMBJTRu/b20dUvotYL00oj9+Hd4MmqjkfdVRo7og==}
+  '@ja-platform/parser-document-xml@0.0.0-dev-20261027003550':
+    resolution: {integrity: sha512-rZbPiFwG1//gF+3z9xhxsl8+FUDDvWsZ2PqDz3Bj4/PmKGfBZg4Hka2dAYAUkmgMAZSwYbHIzFU21mRgZ/Ze5g==}
+
+  '@ja-platform/parser-expressions@0.0.0-dev-20261027003550':
+    resolution: {integrity: sha512-IZfJY5g0Q1kTua/0AaHBcr4szPLt3vBR8K8AGlz9GB5rKCZ3mE20BdrVgVAjLBK2eSd2bXx6bZpX9xnbbZJJ3g==}
     engines: {node: ^22.19.0 || ^24.11.0 || >=26.0.0}
 
-  '@ja-platform/parser-schema-xml@0.0.0-dev-20261021195551':
-    resolution: {integrity: sha512-vgT2WFHDX9mKbF7BClKJ4t5eg7dIM2spPa6BLxBnLVPVZyPcy5grL/a8joKivXfNBFAiOtPFXqkLGQACOn6tfA==}
+  '@ja-platform/parser-schema-xml@0.0.0-dev-20261027003550':
+    resolution: {integrity: sha512-dmPmn9u+FAZpPlTtdDji4gd4MJPi2qYVz5Y7wbJ+2E3dLeqJmObbQTbTLBrBM0FT9+zi//VI/Cz1xMx8FREWcQ==}
     engines: {node: ^22.19.0 || ^24.11.0 || >=26.0.0}
 
-  '@ja-platform/parser-schema@0.0.0-dev-20261021195551':
-    resolution: {integrity: sha512-QSwkP7FlzN18Z0V/HZy6XPocoqLyGu0ZgLVHj0QyilE3eKsfhpACEp/MFsGrvxvuZZ3qSGemWgCR61cPpsxVpQ==}
+  '@ja-platform/parser-schema@0.0.0-dev-20261027003550':
+    resolution: {integrity: sha512-oAdklwyK1QL4TYQq1tpw+BdhlMxrL0WdNBBdFtnxJ1XXIZnCJ16fIuxBfd2goRHc+sFqSAvFpVhPJLtBq/USsA==}
     engines: {node: ^22.19.0 || ^24.11.0 || >=26.0.0}
 
-  '@ja-platform/parser-type-system@0.0.0-dev-20261021195551':
-    resolution: {integrity: sha512-GaZt4RHBk5MtU+s8VkBN/HQGzKo7e2632qFH58RQlhRGCQGGqQJ7pdK9fz1qW3iWjvFU0DstqKWcuhGsmeXaaA==}
+  '@ja-platform/parser-type-system@0.0.0-dev-20261027003550':
+    resolution: {integrity: sha512-2EQYCjVOeMpCcsDNXm2ain1GkNzZ6NHZQsh7lozt7y6Iq0/Mm3UVBt2ijvxskIUWC//V45X1CgcHvMKmCeV+lQ==}
     engines: {node: ^22.19.0 || ^24.11.0 || >=26.0.0}
 
   '@journeyapps/common-tree@0.0.0-dev-20261021193021':
@@ -2626,40 +2626,45 @@ snapshots:
     dependencies:
       minipass: 7.1.3
 
-  '@ja-platform/parser-core@0.0.0-dev-20261021195551':
+  '@ja-platform/parser-core@0.0.0-dev-20261027003550':
     dependencies:
-      '@ja-platform/parser-expressions': 0.0.0-dev-20261021195551
-      '@ja-platform/parser-type-system': 0.0.0-dev-20261021195551
+      '@ja-platform/parser-expressions': 0.0.0-dev-20261027003550
+      '@ja-platform/parser-type-system': 0.0.0-dev-20261027003550
       '@journeyapps/common-tree': 0.0.0-dev-20261021193021
       '@journeyapps/common-utils': 0.0.0-dev-20261021193021
-      '@journeyapps/common-xml': 0.0.0-dev-20261021193021
-      '@journeyapps/domparser': 0.4.1
       lodash: 4.18.1
       type-fest: 5.10.0
 
-  '@ja-platform/parser-expressions@0.0.0-dev-20261021195551':
+  '@ja-platform/parser-document-xml@0.0.0-dev-20261027003550':
+    dependencies:
+      '@ja-platform/parser-core': 0.0.0-dev-20261027003550
+      '@journeyapps/common-xml': 0.0.0-dev-20261021193021
+      '@journeyapps/domparser': 0.4.1
+
+  '@ja-platform/parser-expressions@0.0.0-dev-20261027003550':
     dependencies:
       '@babel/parser': 8.0.7
       '@babel/traverse': 8.0.7
       '@babel/types': 8.0.6
-      '@ja-platform/parser-type-system': 0.0.0-dev-20261021195551
+      '@ja-platform/parser-type-system': 0.0.0-dev-20261027003550
 
-  '@ja-platform/parser-schema-xml@0.0.0-dev-20261021195551':
+  '@ja-platform/parser-schema-xml@0.0.0-dev-20261027003550':
     dependencies:
-      '@ja-platform/parser-core': 0.0.0-dev-20261021195551
-      '@ja-platform/parser-expressions': 0.0.0-dev-20261021195551
-      '@ja-platform/parser-schema': 0.0.0-dev-20261021195551
-      '@ja-platform/parser-type-system': 0.0.0-dev-20261021195551
+      '@ja-platform/parser-core': 0.0.0-dev-20261027003550
+      '@ja-platform/parser-document-xml': 0.0.0-dev-20261027003550
+      '@ja-platform/parser-expressions': 0.0.0-dev-20261027003550
+      '@ja-platform/parser-schema': 0.0.0-dev-20261027003550
+      '@ja-platform/parser-type-system': 0.0.0-dev-20261027003550
       '@journeyapps/common-xml': 0.0.0-dev-20261021193021
       '@journeyapps/domparser': 0.4.1
 
-  '@ja-platform/parser-schema@0.0.0-dev-20261021195551':
+  '@ja-platform/parser-schema@0.0.0-dev-20261027003550':
     dependencies:
-      '@ja-platform/parser-expressions': 0.0.0-dev-20261021195551
-      '@ja-platform/parser-type-system': 0.0.0-dev-20261021195551
+      '@ja-platform/parser-expressions': 0.0.0-dev-20261027003550
+      '@ja-platform/parser-type-system': 0.0.0-dev-20261027003550
       moment: 2.31.0
 
-  '@ja-platform/parser-type-system@0.0.0-dev-20261021195551': {}
+  '@ja-platform/parser-type-system@0.0.0-dev-20261027003550': {}
 
   '@journeyapps/common-tree@0.0.0-dev-20261021193021':
     dependencies:

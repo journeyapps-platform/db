@@ -17,5 +17,3 @@ permissions:
     build: false
   geckodriver:
     build: false
-overrides:
-  '@ja-platform/parser-core': 0.0.0-dev-20261021195551
