@@ -1,31 +1,56 @@
 {
-  "version": "2.29.1",
-  "description": "Journey JS library",
-  "private": true,
-  "workspaces": [
-    "journeyapps",
-    "journeyapps-*"
-  ],
+  "name": "@ja-platform/db",
+  "engines": {
+    "node": "^22.19.0 || ^24.11.0 || >=26.0.0"
+  },
+  "version": "8.1.1",
+  "description": "JourneyApps Platform database SDK",
+  "main": "./dist/index.js",
+  "browser": "./dist/browser.js",
+  "typings": "./dist/@types/index.d.ts",
+  "appTypings": "./dist/@types/app.d.ts",
   "scripts": {
-    "build": "pnpm -r build",
-    "clean": "pnpm -r clean",
-    "ncu": "ncu -u && pnpm recursive exec -- ncu -u",
-    "test": "pnpm -r test",
+    "build": "tsc --build",
+    "clean": "tsc --build --clean",
+    "ncu": "ncu -u",
+    "test": "pnpm build && pnpm test:node",
     "watch": "tsc -b -w",
-    "format": "prettier --write \"**/*.{ts,tsx,js,jsx}\"",
-    "ci:publish": "changeset publish && git push --follow-tags",
-    "ci:version": "changeset version && pnpm install --no-frozen-lockfile"
+    "format": "prettier --write \"**/*.{ts,tsx,mts,cts,js,jsx,mjs,cjs}\"",
+    "release": "pnpm build && pnpm changeset publish",
+    "test:node": "vitest --run --configLoader runner --config vitest.config.unit.ts"
   },
   "devDependencies": {
-    "@changesets/read": "^0.6.0",
-    "@changesets/cli": "^2.26.2",
-    "@journeyapps-platform/lerno": "2.0.7",
+    "@changesets/cli": "^3.0.3",
     "@journeyapps/domparser": "^0.4.1",
-    "@types/node": "^20.5.7",
-    "@vitest/browser": "^1.6.0",
-    "typescript": "^5.2.2",
-    "vitest": "^1.6.0",
-    "webdriverio": "^8.36.1"
+    "@types/node": "^26.6.5",
+    "@types/node-fetch": "^2.6.13",
+    "@vitest/coverage-v8": "5.0.5",
+    "fetch-mock": "^12.6.0",
+    "jsdom": "24.0.0",
+    "npm-check-updates": "^23.1.0",
+    "prettier": "3.9.6",
+    "sqlite3": "^6.0.1",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.5",
+    "websql": "^2.0.3"
   },
-  "packageManager": "pnpm@9.12.3"
+  "dependencies": {
+    "@ja-platform/parser-expressions": "0.0.0-dev-20261027210126",
+    "@ja-platform/parser-schema": "0.0.0-dev-20261027210126",
+    "@ja-platform/parser-schema-xml": "0.0.0-dev-20261027210126",
+    "@ja-platform/parser-type-system": "0.0.0-dev-20261027210126",
+    "@journeyapps/common-xml": "0.0.0-dev-20261021193021",
+    "isomorphic-fetch": "^3.0.0",
+    "lodash": "^4.18.1",
+    "uuid": "^14.0.3",
+    "xmldom": "^0.6.0"
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "packageManager": "pnpm@12.14.0"
 }

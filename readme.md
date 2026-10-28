@@ -1,17 +1,17 @@
-# Journey Lib
+# JourneyApps Platform Lib
 
-Journey JavaScript library and database accessor
+The JourneyApps Platform database SDK, published as `@ja-platform/db`.
 
 ## Simple DB Usage
 
-1. Get the module from yarn
+1. Install the database SDK with pnpm
 
-    `pnpm add @journeyapps/db`
+    `pnpm add @ja-platform/db`
 
 2. import the helper DB (my_script.js)
 
     ```javascript
-    const { Database } = require("@journeyapps/db");
+    const { Database } = require("@ja-platform/db");
     async function run() {
         const db = await Database.instance({ baseUrl: 'http://test.test/api/v4/testaccount', token: process.env.API_TOKEN });
 
@@ -28,6 +28,10 @@ Journey JavaScript library and database accessor
 
 ## Code Installation
 
-1. clone and run `pnpm` in the root & tools folders
+Use Node 24 for development (`nvm install && nvm use`). The database SDK requires Node `^22.19.0 || ^24.11.0 || >=26.0.0` because its parser dependencies use Babel 8.
+
+CI runs `pnpm test` using the Node version in `.nvmrc`.
+
+1. clone and run `pnpm install` in the repository root
 2. run `pnpm build` to build.
 3. run `pnpm test` to run all the unit tests.
